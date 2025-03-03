@@ -1,0 +1,12 @@
+spring.application:
+  name: MusicApp
+server:
+  port: 8920
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: music-app
+      authentication-database: admin
+      auto-index-creation: true
