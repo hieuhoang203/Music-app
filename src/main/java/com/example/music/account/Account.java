@@ -1,9 +1,9 @@
-package com.example.music.genres;
+package com.example.music.account;
 
-import com.example.music.song_genres.SongGenres;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.music.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,32 +11,30 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
-@Document(collection = "tbl_genres")
+@Document(collection = "tbl_account")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Genres {
+@Data
+public class Account implements Serializable {
 
     @Id
-    @Field(name = "id")
-    private String id;
+    @Field(name = "login")
+    private String login;
 
-    @Field(name = "code")
-    private String code;
-
-    @Field(name = "name")
-    private String name;
+    @Field(name = "pass")
+    private String pass;
 
     @Field(name = "create_date")
-    private Date create_date;
+    private Date createDate;
 
     @Field(name = "create_by")
-    private String create_by;
+    private String createBy;
 
     @Field(name = "update_date")
     private Date update_date;
@@ -47,8 +45,11 @@ public class Genres {
     @Field(name = "status")
     private String status;
 
-    @Field(name = "genres")
-    @JsonIgnore
-    private Set<SongGenres> songGenres;
+    @Field(name = "user")
+    private User user;
+
+    @Field(name = "role")
+    private String role;
+
 
 }

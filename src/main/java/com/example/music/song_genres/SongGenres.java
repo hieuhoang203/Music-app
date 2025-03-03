@@ -1,9 +1,10 @@
-package com.example.music.genres;
+package com.example.music.song_genres;
 
-import com.example.music.song_genres.SongGenres;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.music.genres.Genres;
+import com.example.music.song.Song;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,25 +13,28 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
-import java.util.Set;
 
-@Document(collection = "tbl_genres")
-@Getter
-@Setter
+@Document(collection = "tbl_song_genres")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
-public class Genres {
+public class SongGenres {
 
     @Id
     @Field(name = "id")
     private String id;
 
-    @Field(name = "code")
-    private String code;
+    @Field(name = "song")
+    private Song song;
 
-    @Field(name = "name")
-    private String name;
+    @Field(name = "genres")
+    private Genres genres;
+
+    @Field(name = "status")
+    private String status;
 
     @Field(name = "create_date")
     private Date create_date;
@@ -43,12 +47,5 @@ public class Genres {
 
     @Field(name = "update_by")
     private String update_by;
-
-    @Field(name = "status")
-    private String status;
-
-    @Field(name = "genres")
-    @JsonIgnore
-    private Set<SongGenres> songGenres;
 
 }
