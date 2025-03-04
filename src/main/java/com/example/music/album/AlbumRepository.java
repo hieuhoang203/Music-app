@@ -1,9 +1,9 @@
-package com.example.music.account;
+package com.example.music.album;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountRepository extends MongoRepository<Account, String> {
+public interface AlbumRepository extends MongoRepository<Album, String> {
 
 }
