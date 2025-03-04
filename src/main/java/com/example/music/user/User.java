@@ -40,7 +40,7 @@ public class User implements Serializable {
     private Boolean gender;
 
     @Field(name = "birth_day")
-    private Date birthDay;
+    private Date birthday;
 
     @Field(name = "avatar")
     private String avatar;
