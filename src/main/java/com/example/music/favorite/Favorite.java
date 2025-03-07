@@ -3,54 +3,60 @@ package com.example.music.favorite;
 import com.example.music.song_favorite.SongFavorite;
 import com.example.music.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-@Document(collection = "tbl_favorite")
+@Entity
+@Table(name = "tbl_favorite")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
-public class Favorite {
+public class Favorite implements Serializable {
 
     @Id
-    @Field(name = "id")
+    @Column(name = "id", length = 40)
     private String id;
 
-    @Field(name = "name")
+    @Column(name = "name")
     private String name;
 
-    @Field(name = "user")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
     private User user;
 
-    @Field(name = "create_date")
+    @Column(name = "create_date")
     private Date create_date;
 
-    @Field(name = "create_by")
+    @Column(name = "create_by")
     private String create_by;
 
-    @Field(name = "update_date")
+    @Column(name = "update_date")
     private Date update_date;
 
-    @Field(name = "update_by")
+    @Column(name = "update_by")
     private String update_by;
 
-    @Field(name = "status")
+    @Column(name = "status")
     private String status;
 
-    @Field(name = "songs")
+    @OneToMany(mappedBy = "favorite", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<SongFavorite> favorites;
 

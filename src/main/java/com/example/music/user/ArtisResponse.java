@@ -1,33 +1,34 @@
 package com.example.music.user;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-public interface ArtisResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Data
+public class ArtisResponse {
 
-    @Value("#{target.id}")
-    String getId();
+    private String id;
 
-    @Value("#{target.name}")
-    String getName();
+    private String name;
 
-    @Value("#{target.avatar}")
-    String getAvatar();
+    private String avatar;
 
-    @Value("#{target.gender}")
-    Boolean getGender();
+    private Boolean gender;
 
-    @Value("#{target.birthday}")
-    Date getBirthday();
+    private Date birthday;
 
-    @Value("#{target.songs}")
-    Integer getSongs();
+    private Integer songs;
 
-    @Value("#{target.follows}")
-    Integer getFollows();
+    private Integer follows;
 
-    @Value("#{target.status}")
-    String getStatus();
+    private String status;
 
 }

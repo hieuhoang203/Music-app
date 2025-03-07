@@ -6,80 +6,86 @@ import com.example.music.favorite.Favorite;
 import com.example.music.follow.Follow;
 import com.example.music.own.Own;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-@Document(collection = "tbl_user")
-@Data
+@Entity
+@Table(name = "tbl_user")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
-public class User implements Serializable {
+public class User implements Serializable{
 
     @Id
-    @Field(name = "id")
+    @Column(name = "id", length = 40)
     private String id;
 
-    @Field(name = "name")
+    @Column(name = "name")
     private String name;
 
-    @Field(name = "gender")
-    private Boolean gender;
-
-    @Field(name = "birth_day")
+    @Column(name = "birthday")
     private Date birthday;
 
-    @Field(name = "avatar")
-    private String avatar;
+    @Column(name = "gender")
+    private Boolean gender;
 
-    @Field(name = "account")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account", referencedColumnName = "login")
+    @JsonIgnore
     private Account account;
 
-    @Field(name = "create_date")
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column(name = "create_date")
     private Date create_date;
 
-    @Field(name = "create_by")
+    @Column(name = "create_by")
     private String create_by;
 
-    @Field(name = "update_date")
+    @Column(name = "update_date")
     private Date update_date;
 
-    @Field(name = "update_by")
+    @Column(name = "update_by")
     private String update_by;
 
-    @Field(name = "status")
+    @Column(name = "status")
     private String status;
 
-    @Field(name = "followers")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private Set<Follow> user;
 
-    @Field(name = "idols")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "idol")
     @JsonIgnore
     private Set<Follow> idol;
 
-    @Field(name = "albums")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "artis")
     @JsonIgnore
     private Set<Album> albums;
 
-    @Field(name = "favorites")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private Set<Favorite> favorite;
 
-    @Field(name = "authors")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     @JsonIgnore
     private Set<Own> owns;
 

@@ -1,55 +1,55 @@
 package com.example.music.account;
 
 import com.example.music.user.User;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@Document(collection = "tbl_account")
-@Getter
-@Setter
+@Entity
+@Table(name = "tbl_account")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 public class Account implements Serializable {
 
     @Id
-    @Field(name = "login")
+    @Column(name = "login")
     private String login;
 
-    @Field(name = "pass")
+    @Column(name = "pass")
     private String pass;
 
-    @Field(name = "create_date")
-    private Date createDate;
+    @Column(name = "create_date")
+    private Date create_date;
 
-    @Field(name = "create_by")
-    private String createBy;
+    @Column(name = "create_by")
+    private String create_by;
 
-    @Field(name = "update_date")
+    @Column(name = "update_date")
     private Date update_date;
 
-    @Field(name = "update_by")
+    @Column(name = "update_by")
     private String update_by;
 
-    @Field(name = "status")
+    @Column(name = "status")
     private String status;
 
-    @Field(name = "user")
+    @OneToOne(mappedBy = "account")
     private User user;
 
-    @Field(name = "role")
+    @Column(name = "role")
     private String role;
-
 
 }

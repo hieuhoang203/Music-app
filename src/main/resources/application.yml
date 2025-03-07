@@ -1,12 +1,52 @@
-spring.application:
-  name: MusicApp
 server:
   port: 8920
+redis:
+  redisson:
+    host: redis://127.0.0.1:6379
+    connection-pool-size: 10
+    connection-minimum-idle-size: 5
+    connect-timeout: 30000
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: music-app
-      authentication-database: admin
-      auto-index-creation: true
+  application:
+    name: MusicApp
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: 892003
+#    url: jdbc:mysql://localhost:3306/sublime
+    username: ufiscphaens3s44k
+    password: vI8A8xguC19ru7gXvXyx
+    url: jdbc:mysql://bj7yxduhhhhly6jh3sek-mysql.services.clever-cloud.com:3306/bj7yxduhhhhly6jh3sek
+    sql:
+      init:
+        encoding: UTF-8
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    servlet:
+      multipart:
+        max-file-size: 20MB
+        max-request-size: 20MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hieuhv203@gmail.com
+    password: bjme xmga anot cgid
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 25
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000

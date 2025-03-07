@@ -3,61 +3,67 @@ package com.example.music.album;
 import com.example.music.song.Song;
 import com.example.music.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-@Document(collection = "tbl_album")
-@Data
+@Entity
+@Table(name = "tbl_album")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
-public class Album {
+public class Album implements Serializable {
 
     @Id
-    @Field(name = "id")
+    @Column(name = "id", length = 40)
     private String id;
 
-    @Field(name = "name")
+    @Column(name = "name")
     private String name;
 
-    @Field(name = "avatar")
+    @Column(name = "avatar")
     private String avatar;
 
-    @Field(name = "artis")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artis")
     @JsonIgnore
     private User artis;
 
-    @Field(name = "release_date")
+    @Column(name = "release_date")
     private Date release_date;
 
-    @Field(name = "create_date")
+    @Column(name = "create_date")
     private Date create_date;
 
-    @Field(name = "create_by")
+    @Column(name = "create_by")
     private String create_by;
 
-    @Field(name = "update_date")
+    @Column(name = "update_date")
     private Date update_date;
 
-    @Field(name = "update_by")
+    @Column(name = "update_by")
     private String update_by;
 
-    @Field(name = "status")
+    @Column(name = "status")
     private String status;
 
-    @Field(name = "songs")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
     private Set<Song> songs;
 
 }

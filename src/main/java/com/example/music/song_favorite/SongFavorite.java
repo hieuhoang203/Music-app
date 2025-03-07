@@ -2,50 +2,55 @@ package com.example.music.song_favorite;
 
 import com.example.music.favorite.Favorite;
 import com.example.music.song.Song;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@Document(collection = "tbl_song_favorite")
-@Getter
-@Setter
+@Entity
+@Table(name = "tbl_song_favorite")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
-public class SongFavorite {
+@Getter
+@Setter
+public class SongFavorite implements Serializable {
 
     @Id
-    @Field(name = "id")
+    @Column(name = "id", length = 40)
     private String id;
 
-    @Field(name = "song")
+    @ManyToOne
+    @JoinColumn(name = "song")
     private Song song;
 
-    @Field(name = "favorite")
+    @ManyToOne
+    @JoinColumn(name = "favorite")
     private Favorite favorite;
 
-    @Field(name = "status")
+    @Column(name = "status")
     private String status;
 
-    @Field(name = "create_date")
+    @Column(name = "create_date")
     private Date create_date;
 
-    @Field(name = "create_by")
+    @Column(name = "create_by")
     private String create_by;
 
-    @Field(name = "update_date")
+    @Column(name = "update_date")
     private Date update_date;
 
-    @Field(name = "update_by")
+    @Column(name = "update_by")
     private String update_by;
 
 }

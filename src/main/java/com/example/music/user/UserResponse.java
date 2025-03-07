@@ -1,33 +1,34 @@
 package com.example.music.user;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-public interface UserResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Data
+public class UserResponse {
 
-    @Value("#{target.id}")
-    String getId();
+    private String id;
 
-    @Value("#{target.name}")
-    String getName();
+    private String name;
 
-    @Value("#{target.avatar}")
-    String getAvatar();
+    private String avatar;
 
-    @Value("#{target.email}")
-    String getEmail();
+    private String email;
 
-    @Value("#{target.gender}")
-    Boolean getGender();
+    private Boolean gender;
 
-    @Value("#{target.birthday}")
-    Date getBirthDay();
+    private Date birthday;
 
-    @Value("#{target.dateCreate}")
-    Date getDateCreate();
+    private Date date_create;
 
-    @Value("#{target.status}")
-    String getStatus();
+    private String status;
 
 }
