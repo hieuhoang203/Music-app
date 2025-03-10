@@ -20,11 +20,11 @@ public interface GenresRepository extends JpaRepository<Genres, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "update tbl_genres set status = ?2 where id = ?1", nativeQuery = true)
-    void changeStatus(String id, String status);
+    @Query(value = "update tbl_genres set status = :status where id = :id", nativeQuery = true)
+    void changeStatus(@Param("id") String id, @Param("status") String status);
 
-    @Query(value = "select * from tbl_genres where status = ?1 order by create_date desc, id desc", nativeQuery = true)
-    Page<Genres> getGenres(String status, Pageable pageable);
+    @Query(value = "select * from tbl_genres where status = :status order by create_date desc, id desc", nativeQuery = true)
+    Page<Genres> getGenres(@Param("status") String status, Pageable pageable);
 
     @Query(value = "select * from tbl_genres order by create_date desc, id desc", nativeQuery = true)
     Page<Genres> getAll(Pageable pageable);
