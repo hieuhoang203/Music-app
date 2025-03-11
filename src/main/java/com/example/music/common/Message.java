@@ -4,7 +4,8 @@ public enum Message {
 
     // Account and user
     ACCOUNT_NOT_EXISTS("ERR001","Account does not exist!"),
-    PASSWORD_NOT_EXISTS("ERR002", "Incorrect password!"),
+    ACCOUNT_ALREADY_EXISTS("ERR048","Account already exists!"),
+    INVALID_PASSWORD("ERR002", "Incorrect password!"),
     EMAIL_USER_EXIST("ERR003","User name already exists!"),
     INVALID_USERNAME("ERR004", "Invalid username!"),
     INVALID_DATE_OF_BIRTH("ERR005", "Invalid date of birth!"),
@@ -23,6 +24,7 @@ public enum Message {
     ERROR_RETRIEVING_USER_DETAILS("ERR018", "Error retrieving user details!"),
     UNABLE_TO_UPDATE_USER_STATUS("ERR019", "Unable to update user status!"),
     INVALID_GENDER("ERR020", "Invalid gender!"),
+    INFORMATION_CANNOT_BE_LEFT_BLANK("ERR047", "Information cannot be left blank!"),
 
     // Song
     CANNOT_CREATE_NEW_SONG("ERR021", "Cannot create new song!"),
