@@ -87,7 +87,7 @@ public class AccountService {
                     .status(Constant.Status.Activate)
                     .build();
             this.userRepository.save(user);
-            finalResult.put(Constant.RESPONSE_KEY.DATA, jwtService.generateToken(user));
+            finalResult.put(Constant.RESPONSE_KEY.DATA, jwtService.generateToken(account));
         } catch (Exception e) {
             System.out.println("Xảy ra lỗi khi tạo mới người dùng {} " + e.getMessage());
             result = new Result(Message.UNABLE_TO_CREATE_ACCOUNT.getCode(), false, Message.UNABLE_TO_CREATE_ACCOUNT.getMessage());
@@ -143,8 +143,7 @@ public class AccountService {
                 if (account == null) {
                     throw new UsernameNotFoundException("User not found");
                 }
-                User user = userRepository.getUserByEmail(account.getLogin());
-                String token = jwtService.generateToken(user);
+                String token = jwtService.generateToken(account);
                 AccountResponse response = new AccountResponse(token, login.getLogin());
                 finalResult.put(Constant.RESPONSE_KEY.DATA, response);
             }
