@@ -11,6 +11,7 @@ import com.example.music.common.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +56,7 @@ public class UserService {
     * simpleDateFormat use reformat date
     * */
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    private final PasswordEncoder passwordEncoder;
 
     public Map<Object, Object> verifyUser(Byte type, UserDto dto) {
         Map<Object, Object> finalResult = new HashMap<>();
@@ -72,7 +74,7 @@ public class UserService {
                 check = false;
             }
 
-            if (dto.getGender().isEmpty()) {
+            if (dto.getGender() == null) {
                 result = new Result(Message.INVALID_GENDER.getCode(), false, Message.INVALID_GENDER.getMessage());
                 check = false;
             }
@@ -112,10 +114,10 @@ public class UserService {
                 UserDto dto = UserDto.builder()
                         .id(user.get().getId())
                         .name(user.get().getName())
-                        .gender(user.get().getGender() != null ? user.get().getGender().toString() : "")
-                        .email(user.get().getAccount().getLogin())
+                        .gender(user.get().getGender())
+                        .email(user.get().getLogin())
                         .birthday(user.get().getBirthday() != null ? user.get().getBirthday().toString() : user.get().getCreate_date().toString())
-                        .role(user.get().getAccount().getRole().toString())
+                        .role(user.get().getRole())
                         .build();
                 finalResult.put(Constant.RESPONSE_KEY.DATA, dto);
             } else {
@@ -136,23 +138,15 @@ public class UserService {
         try {
             Map urlAvt = cloudinary.uploader().upload(dto.getAvatar().getBytes(), params);
             Random random = new Random(1000000);
-            Account account = Account.builder().login(dto.getEmail().trim())
-//                    .pass(passwordEncoder.encode(random.nextInt() + ""))
-                    .pass(String.valueOf(random.nextInt()))
-                    .role(dto.getRole().trim().equalsIgnoreCase("Admin") ? Constant.Role.ADMIN
-                            : dto.getRole().trim().equalsIgnoreCase("Artis") ? Constant.Role.ARTIS : Constant.Role.USER)
-                    .create_date(new Date(new java.util.Date().getTime()))
-                    .status(Constant.Status.Activate)
-                    .build();
-            this.accountRepository.save(account);
 
             User user = User.builder()
                     .id(UUID.randomUUID().toString())
                     .name(dto.getName().trim())
                     .gender(Boolean.valueOf(dto.getGender()))
+                    .login(dto.getEmail())
+                    .password(passwordEncoder.encode(dto.getPassword()))
                     .birthday(new Date(simpleDateFormat.parse(dto.getBirthday()).getTime()))
                     .avatar(urlAvt.get("secure_url").toString())
-                    .account(account)
                     .create_date(new Date(new java.util.Date().getTime()))
                     .status(Constant.Status.Activate)
                     .build();
