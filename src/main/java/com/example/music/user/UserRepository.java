@@ -1,6 +1,6 @@
 package com.example.music.user;
 
-import com.example.music.account.DetailAccount;
+import com.example.music.auth.DetailAccount;
 import com.example.music.common.ComboboxValue;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;

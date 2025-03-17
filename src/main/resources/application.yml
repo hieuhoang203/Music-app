@@ -36,7 +36,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: hieuhv203@gmail.com
-    password: bjme xmga anot cgid
+    password: bjme xmga anot
     properties:
       mail:
         transport:

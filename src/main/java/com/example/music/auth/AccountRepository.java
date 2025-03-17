@@ -1,4 +1,4 @@
-package com.example.music.account;
+package com.example.music.auth;
 
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;

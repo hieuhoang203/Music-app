@@ -1,4 +1,4 @@
-package com.example.music.account;
+package com.example.music.auth;
 
 import com.example.music.user.User;
 import jakarta.persistence.Column;

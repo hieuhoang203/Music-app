@@ -12,17 +12,17 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class UserDto {
 
-    private String id;
-
     private String name;
 
     private String birthday;
 
-    private String gender;
+    private Boolean gender;
 
     private MultipartFile avatar;
 
     private String email;
+
+    private String password;
 
     private String role;
 

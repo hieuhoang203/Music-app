@@ -2,8 +2,8 @@ package com.example.music.user;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.example.music.account.Account;
-import com.example.music.account.AccountRepository;
+import com.example.music.auth.Account;
+import com.example.music.auth.AccountRepository;
 import com.example.music.common.ComboboxValue;
 import com.example.music.common.Constant;
 import com.example.music.common.Message;

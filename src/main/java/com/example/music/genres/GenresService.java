@@ -66,7 +66,7 @@ public class GenresService {
             this.genresRepository.save(genres);
             finalResult.put(Constant.RESPONSE_KEY.DATA, genres);
         } catch (Exception e) {
-            System.out.println("Lỗi khi thực hiện thêm mới thể loại nhạc! {} " + e.getMessage());
+            System.out.println("Lỗi khi thực hiện thêm mới thể loại nhạc! {} " + e);
             result = new Result(Message.CANNOT_CREATE_NEW_GENRES.getCode(), false, Message.CANNOT_CREATE_NEW_GENRES.getMessage());
             throw e;
         }

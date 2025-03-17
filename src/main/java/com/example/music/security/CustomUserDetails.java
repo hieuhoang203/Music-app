@@ -1,13 +1,11 @@
 package com.example.music.security;
 
-import com.example.music.account.Account;
+import com.example.music.auth.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package com.example.music.security;
 
-import com.example.music.account.Account;
+import com.example.music.auth.Account;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,7 +29,7 @@ public class JwtService {
                 .claim("role", account.getRole())
                 .setIssuer("DCB")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000)) // 10 phút
+                .setExpiration(new Date(System.currentTimeMillis() + 600000))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

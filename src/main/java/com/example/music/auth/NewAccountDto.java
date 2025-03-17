@@ -1,18 +1,20 @@
-package com.example.music.account;
+package com.example.music.auth;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NonNull;
 
 @Data
 @Getter
-@Setter
 public class NewAccountDto {
 
+    @NonNull
     private String name;
 
+    @NonNull
     private String login;
 
+    @NonNull
     private String pass;
 
 }

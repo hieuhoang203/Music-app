@@ -1,4 +1,4 @@
-package com.example.music.account;
+package com.example.music.auth;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.ApiResponse;
