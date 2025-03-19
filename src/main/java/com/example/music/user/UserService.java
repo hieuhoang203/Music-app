@@ -2,8 +2,6 @@ package com.example.music.user;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.example.music.auth.Account;
-import com.example.music.auth.AccountRepository;
 import com.example.music.common.ComboboxValue;
 import com.example.music.common.Constant;
 import com.example.music.common.Message;
@@ -49,8 +47,6 @@ public class UserService {
     * accountRepository used for creating accounts associated with newly created users
     * */
     private final UserRepository userRepository;
-
-    private final AccountRepository accountRepository;
 
     /*
     * simpleDateFormat use reformat date
@@ -169,11 +165,6 @@ public class UserService {
             if (user.isPresent()) {
                 user.get().setStatus(status);
                 userRepository.save(user.get());
-                Optional<Account> account = accountRepository.findAccountByLogin(user.get().getAccount().getLogin());
-                if (account.isPresent()) {
-                    account.get().setStatus(status);
-                    accountRepository.save(account.get());
-                }
             } else {
                 System.out.println("Không tìm thấy người dùng có id là : " + id);
                 result = new Result(Message.UNABLE_TO_UPDATE_USER_STATUS.getCode(), false, Message.UNABLE_TO_UPDATE_USER_STATUS.getMessage());
@@ -206,15 +197,12 @@ public class UserService {
                     user.setAvatar(cloud.get("secure_url").toString());
                 }
             }
-            assert user != null;
-            Account account = user.getAccount();
-            account.setRole(dto.getRole().trim().equalsIgnoreCase("Admin") ? Constant.Role.ADMIN
+            user.setRole(dto.getRole().trim().equalsIgnoreCase("Admin") ? Constant.Role.ADMIN
                     : dto.getRole().trim().equalsIgnoreCase("Artis") ? Constant.Role.ARTIS : Constant.Role.USER);
             user.setName(dto.getName().trim());
             user.setBirthday(new Date(simpleDateFormat.parse(dto.getBirthday()).getTime()));
             user.setUpdate_date(new Date(new java.util.Date().getTime()));
-            user.setGender(Boolean.valueOf(dto.getGender()));
-            this.accountRepository.save(account);
+            user.setGender(dto.getGender());
             this.userRepository.save(user);
             finalResult.put(Constant.RESPONSE_KEY.DATA, user);
         } catch (Exception e) {
@@ -301,7 +289,6 @@ public class UserService {
         Result result = Result.OK();
         try {
             this.userRepository.updateStatusUser(id, status);
-            this.accountRepository.updateStatusAccount(account, status);
             finalResult.put(Constant.RESPONSE_KEY.DATA, this.userRepository.findById(id).orElse(null));
         } catch (Exception e) {
             System.out.println("Lỗi khi thực hiện cập nhật trạng thái người dùng! {} " + e.getMessage());

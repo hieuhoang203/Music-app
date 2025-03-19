@@ -1,7 +1,7 @@
 package com.example.music.security;
 
-import com.example.music.auth.Account;
-import com.example.music.auth.AccountRepository;
+import com.example.music.user.User;
+import com.example.music.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,16 +17,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Account account = accountRepository.findById(login)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User account = userRepository.getUserByEmail(login);
+        if (account == null) {
+            throw new UsernameNotFoundException(login);
+        }
 
         return new org.springframework.security.core.userdetails.User(
                 account.getLogin(),
-                account.getPass(),
+                account.getPassword(),
                 getAuthorities(account.getRole())
         );
     }

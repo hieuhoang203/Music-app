@@ -59,7 +59,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     void updateStatusUser(@Param("id") String id, @Param("status") String status);
 
     @Transactional
-    @Query(value = "select tbl_user.id as 'value', tbl_user.name as 'label' from tbl_user join tbl_account a on a.login = tbl_user.account\n" +
+    @Query(value = "select tbl_user.id as 'value', tbl_user.name as 'label' from tbl_user\n" +
             "where a.role = 'ARTIS' and tbl_user.status = 'Activate'", nativeQuery = true)
     List<ComboboxValue> getArtisForSelect();
 
@@ -68,14 +68,14 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<String> getEmailUser();
 
     @Transactional
-    @Query(value = "select u.id, u.name, u.gender, u.birthday, u.avatar, a.role from tbl_user u left join tbl_account a on a.login = u.account\n" +
-            "where u.account = :login", nativeQuery = true)
+    @Query(value = "select u.id, u.name, u.gender, u.birthday, u.avatar, u.role from tbl_user u\n" +
+            "where u.login = :login", nativeQuery = true)
     DetailAccount getUserResponse(@Param("login") String login);
 
     @Query(value = "select 1 from tbl_user WHERE account = :email LIMIT 1 ", nativeQuery = true)
     Integer getAllEmail(@Param("email") String email);
 
-    @Query(value = "select * from tbl_user where account = :email and status = 'Activate'", nativeQuery = true)
+    @Query(value = "select * from tbl_user where login = :email and status = 'Activate'", nativeQuery = true)
     User getUserByEmail(@Param("email") String email);
 
 }

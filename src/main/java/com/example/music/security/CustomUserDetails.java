@@ -1,6 +1,6 @@
 package com.example.music.security;
 
-import com.example.music.auth.Account;
+import com.example.music.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final Account account;
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -20,12 +20,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return account.getPass();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return account.getLogin();
+        return user.getLogin();
     }
 
     @Override

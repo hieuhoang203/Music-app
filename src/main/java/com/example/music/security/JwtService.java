@@ -1,6 +1,6 @@
 package com.example.music.security;
 
-import com.example.music.auth.Account;
+import com.example.music.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,10 +23,10 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(Account account) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(account.getLogin())
-                .claim("role", account.getRole())
+                .setSubject(user.getLogin())
+                .claim("role", user.getRole())
                 .setIssuer("DCB")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 600000))

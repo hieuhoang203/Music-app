@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/api/auth")
 @CrossOrigin("*")
 @RequiredArgsConstructor
-public class AccountController {
+public class AuthController {
 
     private final AccountService accountService;
 

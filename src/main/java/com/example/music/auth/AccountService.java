@@ -28,8 +28,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountService {
 
-    private final AccountRepository accountRepository;
-
     private final AuthenticationManager authenticationManager;
 
     private final JwtService jwtService;
@@ -49,8 +47,8 @@ public class AccountService {
         if (request.getPass() == null || request.getPass().isEmpty() || request.getPass().length() < 6) {
             result = new Result(Message.INVALID_PASSWORD.getCode(), false, Message.INVALID_PASSWORD.getMessage());
         }
-        Account account = accountRepository.findAccountByLogin(request.getLogin()).orElse(null);
-        if (account != null) {
+        User user = userRepository.getUserByEmail(request.getLogin());
+        if (user != null) {
             result = new Result(Message.ACCOUNT_ALREADY_EXISTS.getCode(), false, Message.ACCOUNT_ALREADY_EXISTS.getMessage());
         }
         finalResult.put("result", result);
@@ -65,16 +63,6 @@ public class AccountService {
         try {
             Date create = new Date(System.currentTimeMillis());
 
-            Account account = Account.builder()
-                    .login(request.getLogin())
-                    .pass(passwordEncoder.encode(request.getPass()))
-                    .role(Constant.Role.USER)
-                    .create_date(create)
-                    .create_by(Constant.Create.HVH)
-                    .status(Constant.Status.Activate)
-                    .build();
-            this.accountRepository.save(account);
-
             ApiResponse apiResponse = cloudinary.api().resourceByAssetID("6089f07ca3500cc8c9362a3edb3be8d7", ObjectUtils.emptyMap());
 
             User user = User.builder()
@@ -82,12 +70,14 @@ public class AccountService {
                     .name(request.getName())
                     .avatar(apiResponse.get("url").toString())
                     .create_date(create)
-                    .account(account)
+                    .login(request.getLogin())
+                    .password(passwordEncoder.encode(request.getPass()))
+                    .role(Constant.Role.USER)
                     .create_by(Constant.Create.NTH)
                     .status(Constant.Status.Activate)
                     .build();
             this.userRepository.save(user);
-            finalResult.put(Constant.RESPONSE_KEY.DATA, jwtService.generateToken(account));
+            finalResult.put(Constant.RESPONSE_KEY.DATA, jwtService.generateToken(user));
         } catch (Exception e) {
             System.out.println("Xảy ra lỗi khi tạo mới người dùng {} " + e.getMessage());
             result = new Result(Message.UNABLE_TO_CREATE_ACCOUNT.getCode(), false, Message.UNABLE_TO_CREATE_ACCOUNT.getMessage());
@@ -102,15 +92,6 @@ public class AccountService {
         Map<Object, Object> finalResult = new HashMap<>();
         Result result = Result.OK();
         try {
-            Account account = Account.builder()
-                    .login(request.getLogin())
-                    .pass(passwordEncoder.encode(request.getPass()))
-                    .role(Constant.Role.ARTIS)
-                    .create_date(new Date(new java.util.Date().getTime()))
-                    .status(Constant.Status.Activate)
-                    .build();
-            this.accountRepository.save(account);
-
             ApiResponse apiResponse = cloudinary.api().resourceByAssetID("6089f07ca3500cc8c9362a3edb3be8d7", ObjectUtils.emptyMap());
 
             User user = User.builder()
@@ -118,7 +99,9 @@ public class AccountService {
                     .name(request.getName())
                     .avatar(apiResponse.get("url").toString())
                     .create_date(new Date(new java.util.Date().getTime()))
-                    .account(account)
+                    .login(request.getLogin())
+                    .password(passwordEncoder.encode(request.getPass()))
+                    .role(Constant.Role.ARTIS)
                     .status(Constant.Status.Activate)
                     .build();
             this.userRepository.save(user);
@@ -139,11 +122,11 @@ public class AccountService {
                     new UsernamePasswordAuthenticationToken(login.getLogin(), login.getPass()));
             if (authentication.isAuthenticated()) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                Account account = accountRepository.findById(login.getLogin()).orElse(null);
-                if (account == null) {
+                User user = userRepository.getUserByEmail(login.getLogin());
+                if (user == null) {
                     throw new UsernameNotFoundException("User not found");
                 }
-                String token = jwtService.generateToken(account);
+                String token = jwtService.generateToken(user);
                 AccountResponse response = new AccountResponse(token, login.getLogin());
                 finalResult.put(Constant.RESPONSE_KEY.DATA, response);
             }
